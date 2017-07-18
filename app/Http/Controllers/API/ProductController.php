@@ -35,7 +35,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validate = validator($data, $this->product->rules());
+
+        if ($validate->fails()) {
+            $messages = $validate->messages();
+
+            return response()->json(['validate.error', $messages]);
+        }
+
+        if (!$insert = $this->product->create($data)) {
+            return response()->json(['error' => 'error_insert'], 500);
+        }
+
+        return response()->json($insert);
     }
 
     /**
@@ -46,7 +60,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        if( !$product = $this->product->find($id)) {
+            return response()->json(['error' => 'not_found']);
+        }
+
+        return response()->json(['data' => $product]);
     }
 
     /**
