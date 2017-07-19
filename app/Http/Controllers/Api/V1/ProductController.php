@@ -124,16 +124,13 @@ class ProductController extends Controller
 
         $validate = validator($data, $this->product->rulesSearch());
 
-        if($validate->fails()) {
+        if ($validate->fails()) {
             $messages = $validate->messages();
 
             return response()->json(['validate.error', $messages]);
         }
 
-        $products = $this->product
-                    ->where('name', $data['key-search'])
-                    ->orWhere('description', 'LIKE', "%{$data['key-search']}%")
-                    ->paginate(5);
+        $products = $this->product->search($data, $this->totalPage);
 
         return response()->json(['data' => $products]);
     }

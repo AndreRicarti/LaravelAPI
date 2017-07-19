@@ -11,8 +11,8 @@ class Product extends Model
     public function rules($id = '')
     {
         return [
-            'name'          => "required|min:3|max:100|unique:products,name,{$id},id",
-            'description'   => 'required|min:3|max:1500',
+            'name' => "required|min:3|max:100|unique:products,name,{$id},id",
+            'description' => 'required|min:3|max:1500',
         ];
     }
 
@@ -21,5 +21,13 @@ class Product extends Model
         return [
             'key-search' => 'required'
         ];
+    }
+
+    public function search($data, $totalPage)
+    {
+        return $this
+            ->where('name', $data['key-search'])
+            ->orWhere('description', 'LIKE', "%{$data['key-search']}%")
+            ->paginate($totalPage);
     }
 }
