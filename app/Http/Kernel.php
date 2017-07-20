@@ -18,6 +18,10 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        /**
+         * Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application
+         */
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
